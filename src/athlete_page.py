@@ -15,9 +15,7 @@ class AthletePage:
     def print_athlete_page(
         athlete:Athlete,
         all_athletes:dict[str,Athlete],
-        all_races:dict[str,Race],
-        combined_5k_page:Path,
-        combined_marathon_page:Path):
+        all_races:dict[str,Race]):
         
         
         def scored_more(other_athlete:Athlete):
@@ -84,10 +82,6 @@ class AthletePage:
                     print_race_summary(race, file_id)
 
                 if is_club_table:
-                    if athlete.best_5k.race_name:
-                        print_combined_race_summary(athlete.best_5k, 'Best 5k', combined_5k_page, file_id)
-                    if athlete.best_marathon.race_name:
-                        print_combined_race_summary(athlete.best_marathon, 'Marathon', combined_marathon_page, file_id)
 
                     totals_cols = [
                         '<b>Totals</>',
@@ -122,26 +116,5 @@ class AthletePage:
             hp.html_h('Club races', 2, file=file_id)
             print_race_list(True, athlete.club_races, file_id)
 
-            hp.html_h('5k races', 2, file=file_id)
-            if athlete._5k_races:
-                hp.html_p(
-                    '5k races are not scored individually. '
-                    'Instead, your fastest time contributes to the ' +
-                    hp.html_link('best 5k leaderboard', Path('..')/combined_5k_page) +
-                    ', which is then scored as if it were '
-                    'a single race.', file_id
-                    )
-            print_race_list(False, athlete._5k_races, file_id)
-
-            hp.html_h('Marathons', 2, file=file_id)
-            if athlete.marathons:
-                hp.html_p(
-                    'Marathons are not scored individually. '
-                    'Instead, your fastest time contributes to the ' +
-                    hp.html_link('best marathon leaderboard', Path('..')/combined_marathon_page) +
-                    ', which is then scored as if it were '
-                    'a single race.', file_id
-                    )
-            print_race_list(False, athlete.marathons, file_id)
             hp.html_p(hp.html_link('<br><br>Home', Path('../index.html')), file=file_id)
             hp.html_footer(file_id, '')

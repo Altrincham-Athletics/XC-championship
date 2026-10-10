@@ -18,8 +18,6 @@ class RaceProcessor:
     race_list_path:Path
     athletes:dict[str,Athlete] = None #type: ignore
     races:dict[str,Race] = None #type: ignore
-    combined_5k:Race = None #type: ignore
-    combined_marathon:Race = None #type: ignore
 
     def __post_init__(self):
         pass
@@ -92,18 +90,13 @@ class RaceProcessor:
         for athlete in self.athletes.values():
             if athlete.total_score:                
                 AthletePage.print_athlete_page(
-                    athlete, self.athletes, self.races,
-                    self.combined_5k.summary_page, self.combined_marathon.summary_page)
+                    athlete, self.athletes, self.races)
 
         for race in self.races.values():
             RacePage.print_race_page(race, self.athletes)
 
-        RacePage.print_combined_race_page(self.combined_5k, self.athletes, self.races)
-
-        RacePage.print_combined_race_page(self.combined_marathon, self.athletes, self.races)
-
         IndexPage.print_index_page(
-            Path() / 'docs' / 'index.html', self.athletes, self.races.values(), self.combined_5k, self.combined_marathon
+            Path() / 'docs' / 'index.html', self.athletes, self.races.values()
         )
         
 
@@ -111,7 +104,5 @@ class RaceProcessor:
 
         self.load_athletes()
         self.load_races()
-        self.make_combined_5k()
-        self.make_combined_marathon()
         self.update_athlete_scores()
         self.print_tables()

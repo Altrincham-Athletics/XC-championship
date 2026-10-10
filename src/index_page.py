@@ -11,15 +11,15 @@ class IndexPage:
 
     @staticmethod
     def print_index_page(
-        page:Path, all_athletes:dict[str,Athlete], races:Collection[Race], combined_5k:Race, combined_marathon:Race):
+        page:Path, all_athletes:dict[str,Athlete], races:Collection[Race]):
         with page.open('wt') as file_id:
-            hp.html_header('ADAC Road Race Championship', 'css/styles.css', file_id)
+            hp.html_header('ADAC XC Championship 26/27', 'css/styles.css', file_id)
             IndexPage.print_overall_table(all_athletes, file_id)
-            IndexPage.print_race_summary(races, combined_5k, combined_marathon, file_id)
+            IndexPage.print_race_summary(races, file_id)
             hp.html_footer(file_id, 'scripts/filters.js')
     
     @staticmethod
-    def print_race_summary(races:Collection[Race], combined_5k:Race, combined_marathon:Race, file_id=None):
+    def print_race_summary(races:Collection[Race], file_id=None):
         
         club_races = [race for race in races if not (race.is_5k or race.is_marathon)]
         club_race_list = []
@@ -31,13 +31,6 @@ class IndexPage:
         
         hp.html_h('Club Races', 2, file=file_id)
         hp.html_list(club_race_list, file=file_id)
-
-        combined_races = [
-            hp.html_link('5K leaderboard', combined_5k.summary_page),
-            hp.html_link('Marathon leaderboard', combined_marathon.summary_page)
-        ]
-        hp.html_h('Combined Races', 2, file=file_id)
-        hp.html_list(combined_races, file=file_id)
 
     @staticmethod
     def print_overall_table(all_athletes:dict[str,Athlete], file_id=None):
