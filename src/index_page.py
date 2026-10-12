@@ -13,7 +13,7 @@ class IndexPage:
     def print_index_page(
         page:Path, all_athletes:dict[str,Athlete], races:Collection[Race]):
         with page.open('wt') as file_id:
-            hp.html_header('ADAC XC Championship 26/27', 'css/styles.css', file_id)
+            hp.html_header('ADAC XC Season 26/27', 'css/styles.css', file_id)
             IndexPage.print_overall_table(all_athletes, file_id)
             IndexPage.print_race_summary(races, file_id)
             hp.html_footer(file_id, 'scripts/filters.js')
@@ -54,7 +54,7 @@ class IndexPage:
                         athlete.total_score],
                     file=file_id)
         
-        hp.html_h('ADAC Road Race Championship', 1, file=file_id)
+        hp.html_h('ADAC XC Season 2026-27', 1, file=file_id)
         hp.html_h('Overall leaderboard', 2, file=file_id)
         print_table_headers()
         for athlete in sorted(all_athletes.values(), key=lambda a:(a.total_score, not a.male), reverse=True):
